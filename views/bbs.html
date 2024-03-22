@@ -65,6 +65,7 @@
   <br>
   <button onclick="sendMessageByUser()">送信</button>
   <br>
+  <button onclick="clearConsole()">Clear Console</button>
   <button id="sourceButton">Show Source</button>
     <div id="sourceCode">
         <h2>HTML Source Code</h2>
@@ -434,7 +435,7 @@ $(document).ready(function() {
         });
   </script>
   <script>
-  function showConsole() {
+    function showConsole() {
             const consoleElement = document.getElementById('console');
             consoleElement.style.display = 'block';
         }
@@ -464,5 +465,13 @@ $(document).ready(function() {
                 evaluateInput();
             }
         })
+    function clearConsole() {
+    const consoleElement = document.getElementById('console');
+    consoleElement.parentNode.removeChild(consoleElement); 
+    showConsole(); 
+}
+
+  </script>
+  
 </body>
 </html>
