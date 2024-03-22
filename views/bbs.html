@@ -369,6 +369,13 @@ $(document).ready(function() {
   setInterval(function() { loadMessage(); }, 5000);
 });
 </script>
-<script src="https://iwb.jp/s/js/tiny-console.js"></script>
+<script>
+        // サイトのHTMLを取得し、ソース表示エリアに挿入する
+        window.addEventListener('DOMContentLoaded', function() {
+            const sourceCodeElement = document.createElement('pre');
+            sourceCodeElement.textContent = document.documentElement.outerHTML;
+            document.body.appendChild(sourceCodeElement);
+        })
+</script>
 </body>
 </html>
