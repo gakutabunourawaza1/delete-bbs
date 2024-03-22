@@ -5,7 +5,34 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script></head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+        #sourceCode {
+            position: fixed;
+            top: 0;
+            right: -300px; 
+            width: 300px;
+            height: 100%;
+            background-color: #f8f8f8;
+            border-left: 1px solid #ccc;
+            overflow-y: scroll;
+            padding: 10px;
+            transition: right 0.3s ease; 
+        }
+        #sourceButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
 <body>
   <span id="status">network status</span>
   <button id="openModal">設定</button>
@@ -21,6 +48,11 @@
   <br>
   <button onclick="sendMessageByUser()">送信</button>
   <br>
+  <button id="sourceButton">Show Source</button>
+    <div id="sourceCode">
+        <h2>HTML Source Code</h2>
+        <pre id="sourceContent"></pre>
+    </div>
   <div id="modalOverlay">
     <div id="modal">
       <button id="closeModal">閉じる</button>
@@ -369,13 +401,18 @@ $(document).ready(function() {
   setInterval(function() { loadMessage(); }, 5000);
 });
 </script>
-<script>
-        // サイトのHTMLを取得し、ソース表示エリアに挿入する
+ <script>
+        document.getElementById('sourceButton').addEventListener('click', function() {
+            const sourceCode = document.getElementById('sourceCode');
+            if (sourceCode.style.right === '0px') {
+                sourceCode.style.right = '-300px';
+            } else {
+                sourceCode.style.right = '0px';
+            }
+        });
         window.addEventListener('DOMContentLoaded', function() {
-            const sourceCodeElement = document.createElement('pre');
-            sourceCodeElement.textContent = document.documentElement.outerHTML;
-            document.body.appendChild(sourceCodeElement);
-        })
-</script>
+            document.getElementById('sourceContent').textContent = document.documentElement.outerHTML;
+        });
+    </script>
 </body>
 </html>
