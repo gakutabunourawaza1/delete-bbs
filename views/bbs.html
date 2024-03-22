@@ -30,6 +30,23 @@
             padding: 10px 20px;
             cursor: pointer;
         }
+    　　 #console {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            width: 300px;
+            height: 200px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            overflow-y: auto;
+            display: none; /* 最初は非表示 */
+        }
+        #input {
+            width: calc(100% - 20px);
+            padding: 5px;
+        }
     </style>
 
 </head>
@@ -53,6 +70,8 @@
         <h2>HTML Source Code</h2>
         <pre id="sourceContent"></pre>
     </div>
+  　 <div id="console"></div>
+    <input type="text" id="input" placeholder="Enter JavaScript code...">
   <div id="modalOverlay">
     <div id="modal">
       <button id="closeModal">閉じる</button>
@@ -412,6 +431,38 @@ $(document).ready(function() {
         });
         window.addEventListener('DOMContentLoaded', function() {
             document.getElementById('sourceContent').textContent = document.documentElement.outerHTML;
+        });
+  </script>
+  <script>
+        function showConsole() {
+            const consoleElement = document.getElementById('console');
+            consoleElement.style.display = 'block';
+        }
+
+        function logToConsole(message) {
+            const consoleElement = document.getElementById('console');
+            consoleElement.innerHTML += '<p>' + message + '</p>';
+            consoleElement.scrollTop = consoleElement.scrollHeight;
+        }
+
+        function evaluateInput() {
+            const inputElement = document.getElementById('input');
+            const code = inputElement.value;
+            try {
+                const result = eval(code);
+                logToConsole('Result: ' + result);
+            } catch (error) {
+                logToConsole('Error: ' + error);
+            }
+            inputElement.value = ''; 
+        }
+
+        window.addEventListener('DOMContentLoaded', showConsole);
+
+        document.getElementById('input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                evaluateInput();
+            }
         });
     </script>
 </body>
