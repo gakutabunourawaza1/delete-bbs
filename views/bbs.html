@@ -7,11 +7,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+.example4{
+background: linear-gradient(to right,#e60000,#f39800,#fff100,#009944,#0068b7,#1d2088,#920783,#e60000) 0 / 200%;
+animation: 5s example4 linear infinite;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+@keyframes example4{
+100% { background-position: 200%; }
+}
+</style>
 </head>
 
-<body>
-  <span id="status">network status</span>
-  <button id="openModal">設定</button>
+<body>  <button id="openModal">設定</button>
   <select name="channel" id="channel">
     <option value="main">雑談</option>
     <option value="battle">バトスタ</option>
