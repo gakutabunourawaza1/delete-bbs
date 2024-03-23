@@ -1,55 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <style>
-        #sourceCode {
-            position: fixed;
-            top: 0;
-            right: -300px; 
-            width: 300px;
-            height: 100%;
-            background-color: #f8f8f8;
-            border-left: 1px solid #ccc;
-            overflow-y: scroll;
-            padding: 10px;
-            transition: right 0.3s ease; 
-        }
-        #sourceButton {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-    　　 #console {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            width: 300px;
-            height: 200px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            overflow-y: auto;
-            display: none; /* 最初は非表示 */
-        }
-        #input {
-            width: calc(100% - 20px);
-            padding: 5px;
-        }
-    </style>
-
 </head>
+
 <body>
   <span id="status">network status</span>
   <button id="openModal">設定</button>
@@ -65,14 +24,6 @@
   <br>
   <button onclick="sendMessageByUser()">送信</button>
   <br>
-  <button onclick="clearConsole()">Clear Console</button>
-  <button id="sourceButton">Show Source</button>
-    <div id="sourceCode">
-        <h2>HTML Source Code</h2>
-        <pre id="sourceContent"></pre>
-    </div>
-  　 <div id="console"></div>
-    <input type="text" id="input" placeholder="Enter JavaScript code...">
   <div id="modalOverlay">
     <div id="modal">
       <button id="closeModal">閉じる</button>
@@ -101,377 +52,326 @@
     </div>
   </div>
   <div id="result">loading...</div>
-<style>
-html {
-  scroll-behavior: smooth;
-}
-  
-body {
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  min-width: 100vw;
-  max-width: 100vw;
-}
-
-select {
-  border-radius: 0;
-  padding: 0;
-}
-  
-textarea {
-  margin: 10px;
-}
-
-a {
-  color: black;
-}
-  
-#status {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-.online {
-  color: black;
-  background-color: greenyellow;
-  box-shadow: 0 0 7px limegreen;
-}
-
-.offline {
-  color: white;
-  background-color: red;
-  box-shadow: 0 0 7px orangered;
-}
-
-button {
-  padding: 0;
-  margin: 0;
-  border: 0;
-  border-radius: 0;
-  background-color: rgba(225, 225, 225, 0.1);
-  text-align: left;
-}
-
-#modalOverlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-#modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80vw;
-  padding: 20px;
-  background-color: white;
-  display: none;
-  border-radius: 5px;
-}
-
-#closeModal {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-input {
-  height: 1em;
-  border-radius: 0;
-}
-</style>
-<script>
-// オートリンク
-function autoLink(str) {
-  var urlRegex = /(https?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+)/g;
-  return text.replace(urlRegex, function(url) {
-    return '<a href="' + url + '">' + url + '</a>';
-  });
-}
-
-// ライトモード化
-function toLightmode() {
-  $('body').css('background-color', 'white');
-  $('#modal').css('background-color', 'white');
-  $('textarea').css('background-color', 'white');
-  $('input').css('background-color', 'white');
-  $('body').css('color', 'black');
-  $('button').css('color', 'black');
-  $('textarea').css('color', 'black');
-  $('input').css('color', 'black');
-  $('a').css('color', 'black');
-  $('textarea').css('border', '1px solid black');
-  $('input').css('border', '1px solid black');
-}
-  
-// ダークモード化
-function toDarkmode() {
-  $('body').css('background-color', 'black');
-  $('#modal').css('background-color', 'black');
-  $('textarea').css('background-color', 'black');
-  $('input').css('background-color', 'black');
-  $('body').css('color', 'white');
-  $('button').css('color', 'white');
-  $('textarea').css('color', 'white');
-  $('input').css('color', 'white');
-  $('a').css('color', 'white');
-  $('textarea').css('border', '1px solid white');
-  $('input').css('border', '1px solid white');
-}
-  
-// メッセージ送信
-function sendMessage(name, seed, channel, message) {
-  if (name=='' || seed=='' || channel=='' || message=='') {
-    console.warn('Invalid argument(s).')
-  } else {
-    message = btoa(unescape(encodeURIComponent(message)));
-    $.ajax({
-      type: 'GET',
-      url: '/bbs/result',
-      data: {
-        'name': name,
-        'seed': seed,
-        'message': message,
-        'channel': channel
-      }
-    });
-    console.log(message, btoa(message))
-  }
-}
-
-// メッセージ送信
-function sendMessageByUser() {
-  var name = $('#name').val();
-  var seed = $('#seed').val();
-  var message = $('#message').val();
-  var channel = $('#channel').val();
-  sendMessage(name, seed, channel, message);
-  $('#message').val("");
-}
-
-// メッセージ読み込み
-var xhr;
-function loadMessage() {
-  if (xhr && xhr.readyState !== 4) { xhr.abort(); }
-  
-  var channel = $('#channel').val();
-  var filter = $('#verify').prop('checked');
-  
-  xhr = $.ajax({
-    type: 'GET',
-    url: '/bbs/api',
-    headers: { 'Accept': null },
-    xhrFields: {
-      withCredentials: true
-    },
-    data: {
-      'channel': channel,
-      'verify': filter,
-      't': 0
-    },
-    success: function(data) {
-      $('#result').html(data);
-      $('table tr').each(function() {
-        var firstTd = $(this).find('td:first');
-        var secondTd = $(this).find('td:eq(1)');
-        var number = firstTd.text();
-        var username = secondTd.html();
-        firstTd.html(`<button class="anchor" id="${number}">${number}</button>`);
-        secondTd.html(`<button class="userIDAnchor">${username}</button>`);
-      });
-      $("#result").find("*").contents().each(function() {
-        if (this.nodeType === 3) {
-          var text = $(this).text();
-          var replacedText = text.replace(/≫(\d+) /g, "<a href='#$1'>$&</a>");
-          var urlRegex = /(https?:\/\/[^\s]+)/g;
-　         if (urlRegex.test(text)) {
-            replacedText = replacedText.replace(urlRegex, function(url) {
-              return '<a href="' + url + '">' + url + '</a>';
-            });
-          }
-          $(this).replaceWith(replacedText);
-        }
-      });
-      $('.anchor').click(function() {
-        var currentMsg = $('#message').val();
-        $('#message').val(currentMsg + '≫' + $(this).text() + ' ');
-      });
-      $('.userIDAnchor').click(function() {
-        var currentMsg = $('#message').val();
-        var cmdRegex = /^\/(dis)?speaker|manager|moderator$/g;
-        if (currentMsg.match(cmdRegex)) { $('#message').val(currentMsg + ' ' + $(this).text()); } else { $('#message').val(currentMsg + $(this).text()); }
-      });
-      if (localStorage.getItem('darkmode') === 'true') { toDarkmode(); } else { toLightmode(); }
+  <style>
+    html {
+      scroll-behavior: smooth;
     }
-  });
-}
 
-// ネットワークコネクション検知
-function updateConnectionStatus() {
-  var status = $('#status');
-  if (navigator.onLine) {
-    status.removeClass('offline').addClass('online');
-    status.text('online');
-  } else {
-    status.removeClass('online').addClass('offline');
-    status.text('offline');
-  }
-}
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      min-width: 100vw;
+      max-width: 100vw;
+    }
 
-$(document).ready(function() {
-  updateConnectionStatus();
-  window.addEventListener('online', updateConnectionStatus);
-  window.addEventListener('offline', updateConnectionStatus);
+    select {
+      border-radius: 0;
+      padding: 0;
+    }
 
-  loadMessage();
-  
-  var selectedChannel = localStorage.getItem('channel');
-  if (selectedChannel) {
-    $('#channel').val(selectedChannel);
-  }
-  
-  $('#channel').change(function() {
-    var newSelectedChannel = $(this).val();
-    localStorage.setItem('channel', newSelectedChannel);
-    loadMessage();
-  });
+    textarea {
+      margin: 10px;
+    }
 
-  var isVerified = localStorage.getItem('verify') === 'true';
-  $('#verify').prop('checked', isVerified);
+    a {
+      color: black;
+    }
 
-  $('#verify').change(function() {
-    var isVerified = $(this).prop('checked');
-    localStorage.setItem('verify', isVerified.toString());
-    loadMessage();
-  });
+    #status {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
 
-  var storedName = localStorage.getItem('name');
-  var storedSeed = localStorage.getItem('seed');
+    .online {
+      color: black;
+      background-color: greenyellow;
+      box-shadow: 0 0 7px limegreen;
+    }
 
-  if (storedName) {
-    $('#name').val(storedName);
-  }
-  if (storedSeed) {
-    $('#seed').val(storedSeed);
-  }
-  
-  $('#name').on('input', function() {
-    var newName = $(this).val();
-    localStorage.setItem('name', newName);
-  });
-  $('#seed').on('input', function() {
-    var newSeed = $(this).val();
-    localStorage.setItem('seed', newSeed);
-  });
+    .offline {
+      color: white;
+      background-color: red;
+      box-shadow: 0 0 7px orangered;
+    }
 
-    $('#openModal').click(function() {
-    $('#modalOverlay').fadeIn(300);
-    $('#modal').fadeIn(300);
-  });
+    button {
+      padding: 0;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      background-color: rgba(225, 225, 225, 0.1);
+      text-align: left;
+    }
 
-  $('#closeModal').click(function() {
-    $('#modalOverlay').fadeOut(300);
-    $('#modal').fadeOut(300);
-  });
-  
-  var selectedFont = localStorage.getItem('font');
-  if (selectedFont) {
-    $('#font-select').val(selectedFont);
-    $('body').css('font-family', selectedFont);
-  }
-  
-  $('#font-select').change(function() {
-    var newSelectedFont = $(this).val();
-    localStorage.setItem('font', newSelectedFont);
-    $('body').css('font-family', newSelectedFont);
-  });
-  
-  var selectedFontSize = localStorage.getItem('font-size');
-  if (selectedFontSize) {
-    $('#font-size').val(selectedFontSize);
-    $('body').css('font-size', `${selectedFontSize}px`);
-    $('#font-size-val').text(`${selectedFontSize}px`);
-  }
-  
-  $('#font-size').change(function() {
-    var newFontSize = $(this).val();
-    localStorage.setItem('font-size', newFontSize)
-    $('body').css('font-size', `${newFontSize}px`);
-    $('#font-size-val').text(`${newFontSize}px`);
-  });
+    #modalOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
 
-  var isDarkmode = localStorage.getItem('darkmode') === 'true';
-  $('#darkmode').prop('checked', isDarkmode);
+    #modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80vw;
+      padding: 20px;
+      background-color: white;
+      display: none;
+      border-radius: 5px;
+    }
 
-  $('#darkmode').change(function() {
-    var isDarkmode = $(this).prop('checked');
-    localStorage.setItem('darkmode', isDarkmode.toString());
-    if (isDarkmode) { toDarkmode(); } else { toLightmode(); }
-  });
-  if (isDarkmode) { toDarkmode(); } else { toLightmode(); }
+    #closeModal {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
 
-  loadMessage();
-  setInterval(function() { loadMessage(); }, 5000);
-});
-</script>
- <script>
-        document.getElementById('sourceButton').addEventListener('click', function() {
-            const sourceCode = document.getElementById('sourceCode');
-            if (sourceCode.style.right === '0px') {
-                sourceCode.style.right = '-300px';
-            } else {
-                sourceCode.style.right = '0px';
-            }
-        });
-        window.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('sourceContent').textContent = document.documentElement.outerHTML;
-        });
-  </script>
+    input {
+      height: 1em;
+      border-radius: 0;
+    }
+  </style>
   <script>
-    function showConsole() {
-            const consoleElement = document.getElementById('console');
-            consoleElement.style.display = 'block';
-        }
+    // オートリンク
+    function autoLink(str) {
+      var urlRegex = /(https?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+)/g;
+      return text.replace(urlRegex, function(url) {
+        return '<a href="' + url + '">' + url + '</a>';
+      });
+    }
 
-        function logToConsole(message) {
-            const consoleElement = document.getElementById('console');
-            consoleElement.innerHTML += '<p>' + message + '</p>';
-            consoleElement.scrollTop = consoleElement.scrollHeight;
-        }
+    // ライトモード化
+    function toLightmode() {
+      $('body').css('background-color', 'white');
+      $('#modal').css('background-color', 'white');
+      $('textarea').css('background-color', 'white');
+      $('input').css('background-color', 'white');
+      $('body').css('color', 'black');
+      $('button').css('color', 'black');
+      $('textarea').css('color', 'black');
+      $('input').css('color', 'black');
+      $('a').css('color', 'black');
+      $('textarea').css('border', '1px solid black');
+      $('input').css('border', '1px solid black');
+    }
 
-        function evaluateInput() {
-            const inputElement = document.getElementById('input');
-            const code = inputElement.value;
-            try {
-                const result = eval(code);
-                logToConsole('Result: ' + result);
-            } catch (error) {
-                logToConsole('Error: ' + error);
+    // ダークモード化
+    function toDarkmode() {
+      $('body').css('background-color', 'black');
+      $('#modal').css('background-color', 'black');
+      $('textarea').css('background-color', 'black');
+      $('input').css('background-color', 'black');
+      $('body').css('color', 'white');
+      $('button').css('color', 'white');
+      $('textarea').css('color', 'white');
+      $('input').css('color', 'white');
+      $('a').css('color', 'white');
+      $('textarea').css('border', '1px solid white');
+      $('input').css('border', '1px solid white');
+    }
+
+    // メッセージ送信
+    function sendMessage(name, seed, channel, message) {
+      if (name == '' || seed == '' || channel == '' || message == '') {
+        console.warn('Invalid argument(s).')
+      } else {
+        message = btoa(unescape(encodeURIComponent(message)));
+        $.ajax({
+          type: 'GET',
+          url: '/bbs/result',
+          data: {
+            'name': name,
+            'seed': seed,
+            'message': message,
+            'channel': channel
+          }
+        });
+        console.log(message, btoa(message))
+      }
+    }
+
+    // メッセージ送信
+    function sendMessageByUser() {
+      var name = $('#name').val();
+      var seed = $('#seed').val();
+      var message = $('#message').val();
+      var channel = $('#channel').val();
+      sendMessage(name, seed, channel, message);
+      $('#message').val("");
+    }
+
+    // メッセージ読み込み
+    var xhr;
+    function loadMessage() {
+      if (xhr && xhr.readyState !== 4) { xhr.abort(); }
+
+      var channel = $('#channel').val();
+      var filter = $('#verify').prop('checked');
+
+      xhr = $.ajax({
+        type: 'GET',
+        url: '/bbs/api',
+        headers: { 'Accept': null },
+        xhrFields: {
+          withCredentials: true
+        },
+        data: {
+          'channel': channel,
+          'verify': filter,
+          't': 0
+        },
+        success: function(data) {
+          $('#result').html(data);
+          $('table tr').each(function() {
+            var firstTd = $(this).find('td:first');
+            var secondTd = $(this).find('td:eq(1)');
+            var number = firstTd.text();
+            var username = secondTd.html();
+            firstTd.html(`<button class="anchor" id="${number}">${number}</button>`);
+            secondTd.html(`<button class="userIDAnchor">${username}</button>`);
+          });
+          $("#result").find("*").contents().each(function() {
+            if (this.nodeType === 3) {
+              var text = $(this).text();
+              var replacedText = text.replace(/≫(\d+) /g, "<a href='#$1'>$&</a>");
+              var urlRegex = /(https?:\/\/[^\s]+)/g;
+              if (urlRegex.test(text)) {
+                replacedText = replacedText.replace(urlRegex, function(url) {
+                  return '<a href="' + url + '">' + url + '</a>';
+                });
+              }
+              $(this).replaceWith(replacedText);
             }
-            inputElement.value = ''; 
+          });
+          $('.anchor').click(function() {
+            var currentMsg = $('#message').val();
+            $('#message').val(currentMsg + '≫' + $(this).text() + ' ');
+          });
+          $('.userIDAnchor').click(function() {
+            var currentMsg = $('#message').val();
+            var cmdRegex = /^\/(dis)?speaker|manager|moderator$/g;
+            if (currentMsg.match(cmdRegex)) { $('#message').val(currentMsg + ' ' + $(this).text()); } else { $('#message').val(currentMsg + $(this).text()); }
+          });
+          if (localStorage.getItem('darkmode') === 'true') { toDarkmode(); } else { toLightmode(); }
         }
+      });
+    }
 
-        window.addEventListener('DOMContentLoaded', showConsole);
+    // ネットワークコネクション検知
+    function updateConnectionStatus() {
+      var status = $('#status');
+      if (navigator.onLine) {
+        status.removeClass('offline').addClass('online');
+        status.text('online');
+      } else {
+        status.removeClass('online').addClass('offline');
+        status.text('offline');
+      }
+    }
 
-        document.getElementById('input').addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                evaluateInput();
-            }
-        })
-    function clearConsole() {
-    const consoleElement = document.getElementById('console');
-    consoleElement.parentNode.removeChild(consoleElement); 
-    showConsole(); 
-}
+    $(document).ready(function() {
+      updateConnectionStatus();
+      window.addEventListener('online', updateConnectionStatus);
+      window.addEventListener('offline', updateConnectionStatus);
 
+      loadMessage();
+
+      var selectedChannel = localStorage.getItem('channel');
+      if (selectedChannel) {
+        $('#channel').val(selectedChannel);
+      }
+
+      $('#channel').change(function() {
+        var newSelectedChannel = $(this).val();
+        localStorage.setItem('channel', newSelectedChannel);
+        loadMessage();
+      });
+
+      var isVerified = localStorage.getItem('verify') === 'true';
+      $('#verify').prop('checked', isVerified);
+
+      $('#verify').change(function() {
+        var isVerified = $(this).prop('checked');
+        localStorage.setItem('verify', isVerified.toString());
+        loadMessage();
+      });
+
+      var storedName = localStorage.getItem('name');
+      var storedSeed = localStorage.getItem('seed');
+
+      if (storedName) {
+        $('#name').val(storedName);
+      }
+      if (storedSeed) {
+        $('#seed').val(storedSeed);
+      }
+
+      $('#name').on('input', function() {
+        var newName = $(this).val();
+        localStorage.setItem('name', newName);
+      });
+      $('#seed').on('input', function() {
+        var newSeed = $(this).val();
+        localStorage.setItem('seed', newSeed);
+      });
+
+      $('#openModal').click(function() {
+        $('#modalOverlay').fadeIn(300);
+        $('#modal').fadeIn(300);
+      });
+
+      $('#closeModal').click(function() {
+        $('#modalOverlay').fadeOut(300);
+        $('#modal').fadeOut(300);
+      });
+
+      var selectedFont = localStorage.getItem('font');
+      if (selectedFont) {
+        $('#font-select').val(selectedFont);
+        $('body').css('font-family', selectedFont);
+      }
+
+      $('#font-select').change(function() {
+        var newSelectedFont = $(this).val();
+        localStorage.setItem('font', newSelectedFont);
+        $('body').css('font-family', newSelectedFont);
+      });
+
+      var selectedFontSize = localStorage.getItem('font-size');
+      if (selectedFontSize) {
+        $('#font-size').val(selectedFontSize);
+        $('body').css('font-size', `${selectedFontSize}px`);
+        $('#font-size-val').text(`${selectedFontSize}px`);
+      }
+
+      $('#font-size').change(function() {
+        var newFontSize = $(this).val();
+        localStorage.setItem('font-size', newFontSize)
+        $('body').css('font-size', `${newFontSize}px`);
+        $('#font-size-val').text(`${newFontSize}px`);
+      });
+
+      var isDarkmode = localStorage.getItem('darkmode') === 'true';
+      $('#darkmode').prop('checked', isDarkmode);
+
+      $('#darkmode').change(function() {
+        var isDarkmode = $(this).prop('checked');
+        localStorage.setItem('darkmode', isDarkmode.toString());
+        if (isDarkmode) { toDarkmode(); } else { toLightmode(); }
+      });
+      if (isDarkmode) { toDarkmode(); } else { toLightmode(); }
+
+      loadMessage();
+      setInterval(function() { loadMessage(); }, 5000);
+    });
   </script>
-  
 </body>
+
 </html>
