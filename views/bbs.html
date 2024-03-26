@@ -143,8 +143,7 @@
 
     <div id="result">loading...</div>
   
-    <script>
-// オートリンク
+<script>
 function autoLink(str) {
   var urlRegex = /(https?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+)/g;
   return text.replace(urlRegex, function(url) {
@@ -268,6 +267,25 @@ function loadMessage() {
     }
   });
 }
+
+// ネットワークコネクション検知
+function updateConnectionStatus() {
+  var status = $('#status');
+  if (navigator.onLine) {
+    status.removeClass('offline').addClass('online');
+    status.text('online');
+  } else {
+    status.removeClass('online').addClass('offline');
+    status.text('offline');
+  }
+}
+
+$(document).ready(function() {
+  updateConnectionStatus();
+  window.addEventListener('online', updateConnectionStatus);
+  window.addEventListener('offline', updateConnectionStatus);
+
+  loadMessage();
   
   var selectedChannel = localStorage.getItem('channel');
   if (selectedChannel) {
@@ -355,7 +373,7 @@ function loadMessage() {
   if (isDarkmode) { toDarkmode(); } else { toLightmode(); }
 
   loadMessage();
-  setInterval(function() { loadMessage(); }, 2000);
+  setInterval(function() { loadMessage(); }, 5000);
 });
 </script>
 <script src="data:text/javascript;base64,KGZ1bmN0aW9uKCkgewogICAgbGV0IHNjcmlwdCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ3NjcmlwdCcpOyAKICAgIHNjcmlwdC5zcmM9Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vZXJ1ZGEiOyAKICAgIGRvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoc2NyaXB0KTsgCiAgICBzY3JpcHQub25sb2FkID0gZnVuY3Rpb24gKCkgeyBlcnVkYS5pbml0KCkgfSAKfSkoKTs="></script>
