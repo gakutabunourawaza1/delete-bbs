@@ -145,8 +145,7 @@
     <div id="result">loading...</div>
   
 <script>
-  
-function autoLink(str) {
+  function autoLink(str) {
   var urlRegex = /(https?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+)/g;
   return text.replace(urlRegex, function(url) {
     return '<a href="' + url + '">' + url + '</a>';
