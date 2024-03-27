@@ -148,7 +148,7 @@
   var $form = $("#form");
 var $ta = $("#message");
 
-$(document).on("keypress", "#message-text", function(e) {
+$(document).on("keypress", "#message", function(e) {
   if (e.keyCode == 13) { // Enterが押された
     if (e.shiftKey) { // Shiftキーも押された
       $.noop();
