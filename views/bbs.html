@@ -144,6 +144,23 @@
     <div id="result">loading...</div>
   
 <script>
+  var $form = $("#form");
+var $ta = $("#message");
+
+$(document).on("keypress", "#message", function(e) {
+  if (e.keyCode == 13) { // Enterが押された
+    if (e.shiftKey) { // Shiftキーも押された
+      $.noop();
+    } else if ($ta.val().replace(/\s/g, "").length > 0) {
+      e.preventDefault();
+      $form.submit();
+    }
+  } else {
+    $.noop();
+  }
+});
+
+  
 function autoLink(str) {
   var urlRegex = /(https?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+)/g;
   return text.replace(urlRegex, function(url) {
