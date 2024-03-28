@@ -105,7 +105,6 @@
     <h1>Yuki BBS 改造インスタンス</h1>
     <br>
     <p>k41が作ったYuki BBSの改造インスタンスです。</p>
-    <p>Enterで送信できるようにしました(多分)</p>
 
     <form id="form">
       <select name="channel" id="channel">
@@ -124,7 +123,7 @@
       <br>
       <label for="message">メッセージ</label>
       <br>
-      <textarea name="message" rows="6" cols="100" maxlength="500" id="message" ></textarea>
+      <textarea name="message" rows="6" cols="100" maxlength="500" id="message" required></textarea>
       <p></p>
       <button id="btn" onclick="sendMessageByUser()">送信</button>
   　　スピーカー以上のメッセージのみを表示<input type="checkbox" id="verify" name="verify">
@@ -136,16 +135,20 @@
       color: #000;
       background-color: #fff;
     }
-      button.userIDAnchor{
-      color: #000;
-      background-color: #fff;
+　　　　button.userIDAnchor{
+      padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: rgba(225, 225, 225, 0.1);
+  text-align: left;
     }
     </style>
 
     <div id="result">loading...</div>
   
 <script>
-  function autoLink(str) {
+function autoLink(str) {
   var urlRegex = /(https?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+)/g;
   return text.replace(urlRegex, function(url) {
     return '<a href="' + url + '">' + url + '</a>';
