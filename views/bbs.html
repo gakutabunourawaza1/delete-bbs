@@ -147,17 +147,17 @@
 var $form = $("#form");
 var $ta = $("#message");
 
-$(document).on("keypress", "#message", function(e) {
+$(document).on("keydown", "#message", function(e) {
   if (e.keyCode == 13) { 
-    if (e.shiftKey) { 
-      $.noop();
-    } else if ($ta.val().replace(/\s/g, "").length > 0) {
-      sendMessageByUser();
+    if (!e.shiftKey) { 
+      e.preventDefault(); 
+      if ($ta.val().trim().length > 0) { 
+        sendMessageByUser(); 
+      }
     }
-  } else {
-    $.noop();
   }
 });
+
 
   
 function autoLink(str) {
