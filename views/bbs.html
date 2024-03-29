@@ -150,19 +150,14 @@ var $form = $("#form");
 var $ta = $("#message");
 var $entersubmit = $("#entersubmit");
 
-$entersubmit.on("change", function() {
-      if ($(this).is(":checked")) {
-        $(document).off("keydown", "#message"); // 以前のイベントハンドラを削除
-        $(document).on("keydown", "#message", function(e) {
-          if (e.keyCode == 13) { // Enterが押された
-            if (!e.shiftKey) { // Shiftキーが押されていない
-              e.preventDefault(); // デフォルトのEnterキーの動作をキャンセルする
-              if ($ta.val().trim().length > 0) { // メッセージが空でない場合
-                sendMessageByUser(); // メッセージを送信する
-              }
-            }
+$(document).on("keydown", "#message", function(e) {
+      if ($entersubmit.is(":checked")) {
+        if (e.keyCode == 13 && !e.shiftKey) { 
+          e.preventDefault(); 
+          if ($ta.val().trim().length > 0) { 
+            sendMessageByUser(); 
           }
-        });
+        }
       }
     });
   
