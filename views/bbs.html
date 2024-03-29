@@ -150,6 +150,21 @@ var $form = $("#form");
 var $ta = $("#message");
 var $entersubmit = $("#entersubmit");
 
+$(document).ready(function() {
+      var isChecked = localStorage.getItem("entersubmited");
+      if (isChecked === "true") {
+        $entersubmit.prop("checked", true);
+      }
+    });
+
+    $entersubmit.on("change", function() {
+      if ($(this).is(":checked")) {
+        localStorage.setItem("entersubmited", "true");
+      } else {
+        localStorage.setItem("entersubmited", "false");
+      }
+    });
+
 $(document).on("keydown", "#message", function(e) {
       if ($entersubmit.is(":checked")) {
         if (e.keyCode == 13 && !e.shiftKey) { 
