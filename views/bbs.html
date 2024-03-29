@@ -152,8 +152,7 @@ $(document).on("keypress", "#message", function(e) {
     if (e.shiftKey) { // Shiftキーも押された
       $.noop();
     } else if ($ta.val().replace(/\s/g, "").length > 0) {
-      e.preventDefault();
-      $form.submit();
+      sendMessageByUser();
     }
   } else {
     $.noop();
