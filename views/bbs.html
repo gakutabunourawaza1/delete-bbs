@@ -236,7 +236,6 @@ function sendMessage(name, seed, channel, message) {
   }
 }
 
-// メッセージ送信
 function sendMessageByUser() {
   var name = $('#name').val();
   var seed = $('#seed').val();
@@ -245,6 +244,7 @@ function sendMessageByUser() {
   sendMessage(name, seed, channel, message);
   $('#message').val("");
 }
+
 
 // メッセージ読み込み
 var xhr;
