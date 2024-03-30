@@ -94,6 +94,7 @@
   </head>
   <body>
     <a href="javascript:var menu = document.querySelector('.menu'); menu.classList.toggle('active');" class="menu-toggle-button">メニュー</a>
+    <p id="clock"></p>
     <div class="menu">
       <label for="darkmode">ダークモード:</label>
       <input type="checkbox" id="darkmode" name="darkmode">
@@ -107,9 +108,8 @@
         <option value="Verdana">Verdana</option>
       </select>
       <label>Enterで送信</label>
-      <input type="checkbox" name="entersubmit" id="entersubmit" value="specific">
+      <input type="checkbox" name="entersubmit" id="entersubmit" value="nya">
     </div>
-    <p id="clock"></p>
     <div class="example4"></div>
     <h1>Yuki BBS 改造インスタンス</h1>
     <br>
@@ -157,7 +157,7 @@
       var hours = ('0' + now.getHours()).slice(-2);
       var minutes = ('0' + now.getMinutes()).slice(-2);
       var seconds = ('0' + now.getSeconds()).slice(-2);
-      var milliseconds = ('00' + now.getMilliseconds()).slice(-3);
+      var milliseconds = ('00' + now.getMilliseconds()).slice(-1);
 
       document.getElementById('clock').innerHTML = hours + '時' + minutes + '分' + seconds + '.' + milliseconds + '秒';
     }
