@@ -24,7 +24,7 @@
         --dark-button-fg: var("--dark-fg");
         --link-hover: #0cf;
       }
-
+      
       * {
         margin: 0;
       }
@@ -44,6 +44,7 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
+      
       @keyframes example4 {
         100% {
           background-position: 200%;
@@ -126,49 +127,42 @@
   <body>
     <a href="javascript:var menu = document.querySelector('.menu'); menu.classList.toggle('active');" class="menu-toggle-button">メニュー</a>
     <div class="menu">
-      <label for="darkmode">ダークモード:</label>
-      <input type="checkbox" id="darkmode" name="darkmode">
-      <label for="font">フォント:</label>
-      <select name="font" id="font-select">
-        <option value="">default</option>
-        <option value="Monospace">Monospace</option>
-        <option value="Arial">Arial</option>
-        <option value="Helvetica">Helvetica</option>
-        <option value="Times New Roman">Times New Roman</option>
-        <option value="Verdana">Verdana</option>
-      </select>
-      <label>Enterで送信</label>
-      <input type="checkbox" name="entersubmit" id="entersubmit" value="specific">
+        <label for="darkmode">ダークモード:</label>
+        <input type="checkbox" id="darkmode" name="darkmode">
+        <label for="font">フォント:</label>
+        <select name="font" id="font-select">
+            <option value="">default</option>
+            <option value="Monospace">Monospace</option>
+            <option value="Arial">Arial</option>
+            <option value="Helvetica">Helvetica</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Verdana">Verdana</option>
+        </select>
+        <label>Enterで送信</label>
+        <input type="checkbox" name="entersubmit" id="entersubmit" value="specific">
     </div>
     <div class="example4"></div>
     <h1>Yuki BBS 改造インスタンス</h1>
-    <br>
     <p>k41が作ったYuki BBSの改造インスタンスです。</p>
     <a href="/bbs/howtouse">使い方</a>
-    <br>
     <form id="form">
-      <select name="channel" id="channel">
-        <option value="main">雑談</option>
-        <option value="battle">バトスタ</option>
-      </select>
-      <br>
-      <a href="javascript:var submitMenu = document.querySelector('.submit_menu'); submitMenu.classList.toggle('active');">送信設定</a>
-      <div class="submit_menu">
-        <label for="name">名前</label>
-        <input type="text" id="name" value="" maxlength="25" required>　
-        <label for="seed">シード</label>
-        <input type="text" id="seed" value="" required>
-        <br>
-      </div>
-      <br>
-      <label for="message">メッセージ</label>
-      <br>
-      <textarea name="message" rows="6" cols="100" maxlength="500" id="message" required></textarea>
-      <p></p>
-      <button id="btn" onclick="sendMessageByUser()">送信</button>
-      スピーカー以上のメッセージのみを表示<input type="checkbox" id="verify" name="verify">
-      <br>
-      <h2>投稿</h2>
+        <select name="channel" id="channel">
+            <option value="main">雑談</option>
+            <option value="battle">バトスタ</option>
+        </select>
+        <a href="javascript:var submitMenu = document.querySelector('.submit_menu'); submitMenu.classList.toggle('active');">送信設定</a>
+        <div class="submit_menu">
+            <label for="name">名前</label>
+            <input type="text" id="name" value="" maxlength="25" required>
+            <label for="seed">シード</label>
+            <input type="text" id="seed" value="" required>
+        </div>
+        <label for="message">メッセージ</label>
+        <textarea name="message" rows="6" cols="100" maxlength="500" id="message" required></textarea>
+        <p></p>
+        <button id="btn" onclick="sendMessageByUser()">送信</button>
+        スピーカー以上のメッセージのみを表示<input type="checkbox" id="verify" name="verify">
+        <h2>投稿</h2>
     </form>
     <style>
       button.anchor{
