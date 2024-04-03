@@ -132,288 +132,288 @@
       <textarea name="message" rows="6" cols="100" maxlength="500" id="message" required></textarea>
       <p></p>
       <button id="btn" onclick="sendMessageByUser()">送信</button>
-  　　スピーカー以上のメッセージのみを表示<input type="checkbox" id="verify" name="verify">
+      スピーカー以上のメッセージのみを表示<input type="checkbox" id="verify" name="verify">
       <br>
       <h2>投稿</h2>
     </form>
     <style>
       button.anchor{
-      color: #000;
-      background-color: #fff;
-    }
+        color: #000;
+        background-color: #fff;
+      }
       button.userIDAnchor{
-      color: #000;
-      background-color: #fff;
-    }
+        color: #000;
+        background-color: #fff;
+      }
     </style>
-
+  
     <div id="result">loading...</div>
-  
-<script>
-var $form = $("#form");
-var $ta = $("#message");
-var $entersubmit = $("#entersubmit");
-
-$(document).ready(function() {
-      var isChecked = localStorage.getItem("entersubmited");
-      if (isChecked === "true") {
-        $entersubmit.prop("checked", true);
-      }
-    });
-
-    $entersubmit.on("change", function() {
-      if ($(this).is(":checked")) {
-        localStorage.setItem("entersubmited", "true");
-      } else {
-        localStorage.setItem("entersubmited", "false");
-      }
-    });
-
-$(document).on("keydown", "#message", function(e) {
-      if ($entersubmit.is(":checked")) {
-        if (e.keyCode == 13 && !e.shiftKey) { 
-          e.preventDefault(); 
-          if ($ta.val().trim().length > 0) { 
-            sendMessageByUser(); 
+      
+  <script>
+    var $form = $("#form");
+    var $ta = $("#message");
+    var $entersubmit = $("#entersubmit");
+    
+    $(document).ready(function() {
+          var isChecked = localStorage.getItem("entersubmited");
+          if (isChecked === "true") {
+            $entersubmit.prop("checked", true);
           }
-        }
-      }
-    });
-  
-function autoLink(str) {
-  var urlRegex = /(https?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+)/g;
-  return text.replace(urlRegex, function(url) {
-    return '<a href="' + url + '">' + url + '</a>';
-  });
-}
-
-// ライトモード化
-function toLightmode() {
-  $('body').css('background-color', 'white');
-  $('#modal').css('background-color', 'white');
-  $('textarea').css('background-color', 'white');
-  $('input').css('background-color', 'white');
-  $('body').css('color', 'black');
-  $('button').css('color', 'black');
-  $('textarea').css('color', 'black');
-  $('input').css('color', 'black');
-  $('a').css('color', 'black');
-  $('textarea').css('border', '1px solid black');
-  $('input').css('border', '1px solid black');
-}
-  
-// ダークモード化
-function toDarkmode() {
-  $('body').css('background-color', 'black');
-  $('#modal').css('background-color', 'black');
-  $('textarea').css('background-color', 'black');
-  $('input').css('background-color', 'black');
-  $('body').css('color', 'white');
-  $('button').css('color', 'white');
-  $('textarea').css('color', 'white');
-  $('input').css('color', 'white');
-  $('a').css('color', 'white');
-  $('textarea').css('border', '1px solid white');
-  $('input').css('border', '1px solid white');
-}
-  
-// メッセージ送信
-function sendMessage(name, seed, channel, message) {
-  if (name=='' || seed=='' || channel=='' || message=='') {
-    console.warn('Invalid argument(s).')
-  } else {
-    message = btoa(unescape(encodeURIComponent(message)));
-    $.ajax({
-      type: 'GET',
-      url: '/bbs/result',
-      data: {
-        'name': name,
-        'seed': seed,
-        'message': message,
-        'channel': channel
-      }
-    });
-    console.log(message, btoa(message))
-  }
-}
-
-function sendMessageByUser() {
-  var name = $('#name').val();
-  var seed = $('#seed').val();
-  var message = $('#message').val();
-  var channel = $('#channel').val();
-  sendMessage(name, seed, channel, message);
-  $('#message').val("");
-}
-
-
-// メッセージ読み込み
-var xhr;
-function loadMessage() {
-  if (xhr && xhr.readyState !== 4) { xhr.abort(); }
-  
-  var channel = $('#channel').val();
-  var filter = $('#verify').prop('checked');
-  
-  xhr = $.ajax({
-    type: 'GET',
-    url: '/bbs/api',
-    headers: { 'Accept': null },
-    xhrFields: {
-      withCredentials: true
-    },
-    data: {
-      'channel': channel,
-      'verify': filter,
-      't': 0
-    },
-    success: function(data) {
-      $('#result').html(data);
-      $('table tr').each(function() {
-        var firstTd = $(this).find('td:first');
-        var secondTd = $(this).find('td:eq(1)');
-        var number = firstTd.text();
-        var username = secondTd.html();
-        firstTd.html(`<button class="anchor" id="${number}">${number}</button>`);
-        secondTd.html(`<button class="userIDAnchor">${username}</button>`);
-      });
-      $("#result").find("*").contents().each(function() {
-        if (this.nodeType === 3) {
-          var text = $(this).text();
-          var replacedText = text.replace(/≫(\d+) /g, "<a href='#$1'>$&</a>");
-          var urlRegex = /(https?:\/\/[^\s]+)/g;
-　         if (urlRegex.test(text)) {
-            replacedText = replacedText.replace(urlRegex, function(url) {
-              return '<a href="' + url + '">' + url + '</a>';
-            });
+        });
+    
+        $entersubmit.on("change", function() {
+          if ($(this).is(":checked")) {
+            localStorage.setItem("entersubmited", "true");
+          } else {
+            localStorage.setItem("entersubmited", "false");
           }
-          $(this).replaceWith(replacedText);
-        }
+        });
+    
+    $(document).on("keydown", "#message", function(e) {
+          if ($entersubmit.is(":checked")) {
+            if (e.keyCode == 13 && !e.shiftKey) { 
+              e.preventDefault(); 
+              if ($ta.val().trim().length > 0) { 
+                sendMessageByUser(); 
+              }
+            }
+          }
+        });
+      
+    function autoLink(str) {
+      var urlRegex = /(https?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+)/g;
+      return text.replace(urlRegex, function(url) {
+        return '<a href="' + url + '">' + url + '</a>';
       });
-      $('.anchor').click(function() {
-        var currentMsg = $('#message').val();
-        $('#message').val(currentMsg + '≫' + $(this).text() + ' ');
-      });
-      $('.userIDAnchor').click(function() {
-        var currentMsg = $('#message').val();
-        var cmdRegex = /^\/(dis)?speaker|manager|moderator$/g;
-        if (currentMsg.match(cmdRegex)) { $('#message').val(currentMsg + ' ' + $(this).text()); } else { $('#message').val(currentMsg + $(this).text()); }
-      });
-      if (localStorage.getItem('darkmode') === 'true') { toDarkmode(); } else { toLightmode(); }
     }
-  });
-}
-
-// ネットワークコネクション検知
-function updateConnectionStatus() {
-  var status = $('#status');
-  if (navigator.onLine) {
-    status.removeClass('offline').addClass('online');
-    status.text('online');
-  } else {
-    status.removeClass('online').addClass('offline');
-    status.text('offline');
-  }
-}
-
-$(document).ready(function() {
-  updateConnectionStatus();
-  window.addEventListener('online', updateConnectionStatus);
-  window.addEventListener('offline', updateConnectionStatus);
-
-  loadMessage();
-  
-  var selectedChannel = localStorage.getItem('channel');
-  if (selectedChannel) {
-    $('#channel').val(selectedChannel);
-  }
-  
-  $('#channel').change(function() {
-    var newSelectedChannel = $(this).val();
-    localStorage.setItem('channel', newSelectedChannel);
-    loadMessage();
-  });
-
-  var isVerified = localStorage.getItem('verify') === 'true';
-  $('#verify').prop('checked', isVerified);
-
-  $('#verify').change(function() {
-    var isVerified = $(this).prop('checked');
-    localStorage.setItem('verify', isVerified.toString());
-    loadMessage();
-  });
-
-  var storedName = localStorage.getItem('name');
-  var storedSeed = localStorage.getItem('seed');
-
-  if (storedName) {
-    $('#name').val(storedName);
-  }
-  if (storedSeed) {
-    $('#seed').val(storedSeed);
-  }
-  
-  $('#name').on('input', function() {
-    var newName = $(this).val();
-    localStorage.setItem('name', newName);
-  });
-  $('#seed').on('input', function() {
-    var newSeed = $(this).val();
-    localStorage.setItem('seed', newSeed);
-  });
-
-    $('#openModal').click(function() {
-    $('#modalOverlay').fadeIn(300);
-    $('#modal').fadeIn(300);
-  });
-
-  $('#closeModal').click(function() {
-    $('#modalOverlay').fadeOut(300);
-    $('#modal').fadeOut(300);
-  });
-  
-  var selectedFont = localStorage.getItem('font');
-  if (selectedFont) {
-    $('#font-select').val(selectedFont);
-    $('body').css('font-family', selectedFont);
-  }
-  
-  $('#font-select').change(function() {
-    var newSelectedFont = $(this).val();
-    localStorage.setItem('font', newSelectedFont);
-    $('body').css('font-family', newSelectedFont);
-  });
-  
-  var selectedFontSize = localStorage.getItem('font-size');
-  if (selectedFontSize) {
-    $('#font-size').val(selectedFontSize);
-    $('body').css('font-size', `${selectedFontSize}px`);
-    $('#font-size-val').text(`${selectedFontSize}px`);
-  }
-  
-  $('#font-size').change(function() {
-    var newFontSize = $(this).val();
-    localStorage.setItem('font-size', newFontSize)
-    $('body').css('font-size', `${newFontSize}px`);
-    $('#font-size-val').text(`${newFontSize}px`);
-  });
-
-  var isDarkmode = localStorage.getItem('darkmode') === 'true';
-  $('#darkmode').prop('checked', isDarkmode);
-
-  $('#darkmode').change(function() {
-    var isDarkmode = $(this).prop('checked');
-    localStorage.setItem('darkmode', isDarkmode.toString());
-    if (isDarkmode) { toDarkmode(); } else { toLightmode(); }
-  });
-  if (isDarkmode) { toDarkmode(); } else { toLightmode(); }
-
-  loadMessage();
-  setInterval(function() { loadMessage(); }, 5000);
-});
-</script>
-<script src="data:text/javascript;base64,KGZ1bmN0aW9uKCkgewogICAgbGV0IHNjcmlwdCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ3NjcmlwdCcpOyAKICAgIHNjcmlwdC5zcmM9Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vZXJ1ZGEiOyAKICAgIGRvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoc2NyaXB0KTsgCiAgICBzY3JpcHQub25sb2FkID0gZnVuY3Rpb24gKCkgeyBlcnVkYS5pbml0KCkgfSAKfSkoKTs="></script>
-<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    
+    // ライトモード化
+    function toLightmode() {
+      $('body').css('background-color', 'white');
+      $('#modal').css('background-color', 'white');
+      $('textarea').css('background-color', 'white');
+      $('input').css('background-color', 'white');
+      $('body').css('color', 'black');
+      $('button').css('color', 'black');
+      $('textarea').css('color', 'black');
+      $('input').css('color', 'black');
+      $('a').css('color', 'black');
+      $('textarea').css('border', '1px solid black');
+      $('input').css('border', '1px solid black');
+    }
+      
+    // ダークモード化
+    function toDarkmode() {
+      $('body').css('background-color', 'black');
+      $('#modal').css('background-color', 'black');
+      $('textarea').css('background-color', 'black');
+      $('input').css('background-color', 'black');
+      $('body').css('color', 'white');
+      $('button').css('color', 'white');
+      $('textarea').css('color', 'white');
+      $('input').css('color', 'white');
+      $('a').css('color', 'white');
+      $('textarea').css('border', '1px solid white');
+      $('input').css('border', '1px solid white');
+    }
+      
+    // メッセージ送信
+    function sendMessage(name, seed, channel, message) {
+      if (name=='' || seed=='' || channel=='' || message=='') {
+        console.warn('Invalid argument(s).')
+      } else {
+        message = btoa(unescape(encodeURIComponent(message)));
+        $.ajax({
+          type: 'GET',
+          url: '/bbs/result',
+          data: {
+            'name': name,
+            'seed': seed,
+            'message': message,
+            'channel': channel
+          }
+        });
+        console.log(message, btoa(message))
+      }
+    }
+    
+    function sendMessageByUser() {
+      var name = $('#name').val();
+      var seed = $('#seed').val();
+      var message = $('#message').val();
+      var channel = $('#channel').val();
+      sendMessage(name, seed, channel, message);
+      $('#message').val("");
+    }
+    
+    
+    // メッセージ読み込み
+    var xhr;
+    function loadMessage() {
+      if (xhr && xhr.readyState !== 4) { xhr.abort(); }
+      
+      var channel = $('#channel').val();
+      var filter = $('#verify').prop('checked');
+      
+      xhr = $.ajax({
+        type: 'GET',
+        url: '/bbs/api',
+        headers: { 'Accept': null },
+        xhrFields: {
+          withCredentials: true
+        },
+        data: {
+          'channel': channel,
+          'verify': filter,
+          't': 0
+        },
+        success: function(data) {
+          $('#result').html(data);
+          $('table tr').each(function() {
+            var firstTd = $(this).find('td:first');
+            var secondTd = $(this).find('td:eq(1)');
+            var number = firstTd.text();
+            var username = secondTd.html();
+            firstTd.html(`<button class="anchor" id="${number}">${number}</button>`);
+            secondTd.html(`<button class="userIDAnchor">${username}</button>`);
+          });
+          $("#result").find("*").contents().each(function() {
+            if (this.nodeType === 3) {
+              var text = $(this).text();
+              var replacedText = text.replace(/≫(\d+) /g, "<a href='#$1'>$&</a>");
+              var urlRegex = /(https?:\/\/[^\s]+)/g;
+    　         if (urlRegex.test(text)) {
+                replacedText = replacedText.replace(urlRegex, function(url) {
+                  return '<a href="' + url + '">' + url + '</a>';
+                });
+              }
+              $(this).replaceWith(replacedText);
+            }
+          });
+          $('.anchor').click(function() {
+            var currentMsg = $('#message').val();
+            $('#message').val(currentMsg + '≫' + $(this).text() + ' ');
+          });
+          $('.userIDAnchor').click(function() {
+            var currentMsg = $('#message').val();
+            var cmdRegex = /^\/(dis)?speaker|manager|moderator$/g;
+            if (currentMsg.match(cmdRegex)) { $('#message').val(currentMsg + ' ' + $(this).text()); } else { $('#message').val(currentMsg + $(this).text()); }
+          });
+          if (localStorage.getItem('darkmode') === 'true') { toDarkmode(); } else { toLightmode(); }
+        }
+      });
+    }
+    
+    // ネットワークコネクション検知
+    function updateConnectionStatus() {
+      var status = $('#status');
+      if (navigator.onLine) {
+        status.removeClass('offline').addClass('online');
+        status.text('online');
+      } else {
+        status.removeClass('online').addClass('offline');
+        status.text('offline');
+      }
+    }
+    
+    $(document).ready(function() {
+      updateConnectionStatus();
+      window.addEventListener('online', updateConnectionStatus);
+      window.addEventListener('offline', updateConnectionStatus);
+    
+      loadMessage();
+      
+      var selectedChannel = localStorage.getItem('channel');
+      if (selectedChannel) {
+        $('#channel').val(selectedChannel);
+      }
+      
+      $('#channel').change(function() {
+        var newSelectedChannel = $(this).val();
+        localStorage.setItem('channel', newSelectedChannel);
+        loadMessage();
+      });
+    
+      var isVerified = localStorage.getItem('verify') === 'true';
+      $('#verify').prop('checked', isVerified);
+    
+      $('#verify').change(function() {
+        var isVerified = $(this).prop('checked');
+        localStorage.setItem('verify', isVerified.toString());
+        loadMessage();
+      });
+    
+      var storedName = localStorage.getItem('name');
+      var storedSeed = localStorage.getItem('seed');
+    
+      if (storedName) {
+        $('#name').val(storedName);
+      }
+      if (storedSeed) {
+        $('#seed').val(storedSeed);
+      }
+      
+      $('#name').on('input', function() {
+        var newName = $(this).val();
+        localStorage.setItem('name', newName);
+      });
+      $('#seed').on('input', function() {
+        var newSeed = $(this).val();
+        localStorage.setItem('seed', newSeed);
+      });
+    
+        $('#openModal').click(function() {
+        $('#modalOverlay').fadeIn(300);
+        $('#modal').fadeIn(300);
+      });
+    
+      $('#closeModal').click(function() {
+        $('#modalOverlay').fadeOut(300);
+        $('#modal').fadeOut(300);
+      });
+      
+      var selectedFont = localStorage.getItem('font');
+      if (selectedFont) {
+        $('#font-select').val(selectedFont);
+        $('body').css('font-family', selectedFont);
+      }
+      
+      $('#font-select').change(function() {
+        var newSelectedFont = $(this).val();
+        localStorage.setItem('font', newSelectedFont);
+        $('body').css('font-family', newSelectedFont);
+      });
+      
+      var selectedFontSize = localStorage.getItem('font-size');
+      if (selectedFontSize) {
+        $('#font-size').val(selectedFontSize);
+        $('body').css('font-size', `${selectedFontSize}px`);
+        $('#font-size-val').text(`${selectedFontSize}px`);
+      }
+      
+      $('#font-size').change(function() {
+        var newFontSize = $(this).val();
+        localStorage.setItem('font-size', newFontSize)
+        $('body').css('font-size', `${newFontSize}px`);
+        $('#font-size-val').text(`${newFontSize}px`);
+      });
+    
+      var isDarkmode = localStorage.getItem('darkmode') === 'true';
+      $('#darkmode').prop('checked', isDarkmode);
+    
+      $('#darkmode').change(function() {
+        var isDarkmode = $(this).prop('checked');
+        localStorage.setItem('darkmode', isDarkmode.toString());
+        if (isDarkmode) { toDarkmode(); } else { toLightmode(); }
+      });
+      if (isDarkmode) { toDarkmode(); } else { toLightmode(); }
+    
+      loadMessage();
+      setInterval(function() { loadMessage(); }, 5000);
+    });
+  </script>
+  <script src="data:text/javascript;base64,KGZ1bmN0aW9uKCkgewogICAgbGV0IHNjcmlwdCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ3NjcmlwdCcpOyAKICAgIHNjcmlwdC5zcmM9Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vZXJ1ZGEiOyAKICAgIGRvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoc2NyaXB0KTsgCiAgICBzY3JpcHQub25sb2FkID0gZnVuY3Rpb24gKCkgeyBlcnVkYS5pbml0KCkgfSAKfSkoKTs="></script>
+  <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
 
 </body>
 </html>
