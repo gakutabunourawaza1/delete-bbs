@@ -110,44 +110,7 @@
     <h1>Yuki BBS 改造インスタンス</h1>
     <br>
     <p>k41が作ったYuki BBSの改造インスタンスです。</p><br>
-    <p>現在オンラインユーザー数: 
-    <?php
-    // セッションを開始
-    session_start();
-
-    // オンラインユーザーのリフレッシュ間隔（秒）
-    $refresh_interval = 30;
-
-    // オンラインユーザーを管理するセッション変数を初期化
-    if (!isset($_SESSION['online_users'])) {
-        $_SESSION['online_users'] = array();
-    }
-
-    // 現在のユーザーのセッションIDを取得
-    $current_session_id = session_id();
-
-    // セッションを更新し、オンラインユーザーとして追加または更新
-    $_SESSION['online_users'][$current_session_id] = time();
-
-    // オンラインユーザーの数を計算
-    $online_users_count = 0;
-    $current_time = time();
-    foreach ($_SESSION['online_users'] as $session_id => $last_active_time) {
-        if ($current_time - $last_active_time <= $refresh_interval) {
-            $online_users_count++;
-        } else {
-            // セッションがリフレッシュ間隔を超えている場合は削除
-            unset($_SESSION['online_users'][$session_id]);
-        }
-    }
-
-    // オンラインユーザーの数を表示
-    echo $online_users_count;
-    
-    // セッションを保存
-    session_write_close();
-    ?>
-    </p>
+    <p>現在オンラインユーザー数: 現在まだ実装途中です</p>
     <a href="/bbs/howtouse">使い方</a>
     <br>
     <form id="form">
@@ -171,7 +134,7 @@
       <p></p>
       <button id="btn" onclick="sendMessageByUser()">送信</button>
       スピーカー以上のメッセージのみを表示<input type="checkbox" id="verify" name="verify">
-      <br>
+      <br><br><br>
       <h2>投稿</h2>
     </form>
     <style>
