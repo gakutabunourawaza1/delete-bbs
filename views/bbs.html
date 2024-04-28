@@ -77,11 +77,13 @@
         color: var("--link-hover");
       }
       
-      .menu, .submit_menu {
+      .menu {
         display: none;
       }
-
-      .menu.active, .submit_menu.active {
+      .submit_menu {
+        display: inline-block;
+      }
+      .menu.active{
         display: inline-block;
       }
       .menu-toggle-button{
@@ -119,7 +121,6 @@
         <option value="battle">バトスタ</option>
       </select>
       <br>
-      <a href="javascript:var submitMenu = document.querySelector('.submit_menu'); submitMenu.classList.toggle('active');">送信設定</a>
       <div class="submit_menu">
         <label for="name">名前</label>
         <input type="text" id="name" value="" maxlength="25" required>　
