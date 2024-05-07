@@ -1,12 +1,29 @@
 <!DOCTYPE html>
 <html lnag="ja">
 <head>
+  <link rel="stylesheet" type="text/css" href="https://pgmemo.tokyo/data/filedir/1178_1.css?975">
+  <link rel="stylesheet" type="text/css" href="//img.atcoder.jp/public/ea27d23/css/base.css">
+  <link rel="shortcut icon" type="image/png" href="//img.atcoder.jp/assets/favicon.png">
+  <link rel="apple-touch-icon" href="//img.atcoder.jp/assets/atcoder.png">
+  <script src="//img.atcoder.jp/public/ea27d23/js/lib/jquery-1.9.1.min.js"></script>
+  <script src="//img.atcoder.jp/public/ea27d23/js/cdn/js.cookie.min.js"></script>
+  <script src="//img.atcoder.jp/public/ea27d23/js/cdn/moment.min.js"></script>
+  <script src="//img.atcoder.jp/public/ea27d23/js/cdn/moment_js-ja.js"></script>
+  <script>
+    var LANG = "ja";
+    var userScreenName = "";
+    var csrfToken = "XNVKnVNNhQJneduGBS5f8OSEb7SSsFQD1TAIfDsTk8g="
+  </script>
+  <script src="//img.atcoder.jp/public/ea27d23/js/utils.js"></script>
+  <script src="//img.atcoder.jp/public/ea27d23/js/base.js"></script>
 　<title>Yuki BBS 改造インスタンス </title>
 　<meta charset="UTF-8">
 　<meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
     <style>
+      
       :root {
         --light-bg: #fff;
         --light-fg: #000;
@@ -92,6 +109,9 @@
     </style>
   </head>
   <body>
+    <div class="bootstrap">
+      <p id="fixed-server-timer" class="contest-timer" style="opacity: 1;">2024-05-03 (金)<br>18:46:31 +09:00</p>
+    </div>
     <a href="javascript:var menu = document.querySelector('.menu'); menu.classList.toggle('active');" class="menu-toggle-button">メニュー</a>
     <div class="menu">
       <label for="darkmode">ダークモード:</label>
@@ -112,7 +132,6 @@
     <h1>Yuki BBS 改造インスタンス</h1>
     <br>
     <p>k41が作ったYuki BBSの改造インスタンスです。</p><br>
-    <p>現在オンラインユーザー数: 現在まだ実装途中です</p>
     <a href="/bbs/howtouse">使い方</a>
     <br>
     <form id="form">
@@ -126,7 +145,9 @@
         <label for="name">名前</label>
         <input type="text" id="name" value="" maxlength="40" required>　
         <label for="seed">シード</label>
-        <input type="text" id="seed" value="" required>
+        <input type="password" id="seed" value="" required>
+        <span id="buttonEye" class="fa fa-eye" onclick="pushHideButton()"></span>
+        <span id="eyeText" onclick="pushHideButton()">表示する</span>
         <br>
       </div>
       <br>
@@ -161,7 +182,24 @@
     </style>
   
     <div id="result">loading...</div>
-      
+
+    <script language="javascript">
+      function pushHideButton() {
+        var txtPass = document.getElementById("seed");
+        var btnEye = document.getElementById("buttonEye");
+        var eyeText = document.getElementById("eyeText");
+
+        if (txtPass.type === "text") {
+          txtPass.type = "password";
+          btnEye.className = "fa fa-eye";
+          eyeText.textContent = "表示する";
+        } else {
+          txtPass.type = "text";
+          btnEye.className = "fa fa-eye-slash";
+          eyeText.textContent = "非表示にする";
+        }
+      }
+    </script>
   <script>
     var $form = $("#form");
     var $ta = $("#message");
@@ -176,9 +214,9 @@
     
         $entersubmit.on("change", function() {
           if ($(this).is(":checked")) {
-            localStorage.setItem("entersubmited", "true");
+            localStorage.setItem("entersubmit", "true");
           } else {
-            localStorage.setItem("entersubmited", "false");
+            localStorage.setItem("entersubmit", "false");
           }
         });
     
@@ -285,10 +323,23 @@
           $('table tr').each(function() {
             var firstTd = $(this).find('td:first');
             var secondTd = $(this).find('td:eq(1)');
+            var thirdTd = $(this).find('td:eq(2)');
             var number = firstTd.text();
             var username = secondTd.html();
+            var thirdContent = thirdTd.text();
+            
+            function escapeHtml(unsafe) {
+            return unsafe
+                 .replace(/&/g, "&amp;")
+                 .replace(/</g, "escape")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+            }
+            
             firstTd.html(`<button class="anchor" id="${number}">${number}</button>`);
             secondTd.html(`<button class="userIDAnchor">${username}</button>`);
+            thirdTd.html(escapeHtml(thirdContent));
           });
           $("#result").find("*").contents().each(function() {
             if (this.nodeType === 3) {
