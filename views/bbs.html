@@ -355,7 +355,10 @@
           });
           $('.anchor').click(function() {
             var buttonText = $(this).text();
-            var delatemessage = 'testmessage';
+            var delatemessage = `/del ${buttonText}`;
+            var name = $('#name').val();
+            var seed = $('#seed').val();
+            var channel = $('#channel').val();
             sendMessage(name, seed, channel, delatemessage);
             console.log(sendMessage(name, seed, channel, delatemessage));
           });
