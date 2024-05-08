@@ -297,7 +297,6 @@
       $('#message').val("");
     }
     
-    
     // メッセージ読み込み
     var xhr;
     function loadMessage() {
@@ -355,8 +354,8 @@
             }
           });
           $('.anchor').click(function() {
-            var currentMsg = $('#message').val();
-            $('#message').val(currentMsg + '≫' + $(this).text() + ' ');
+            let delatemessage = `/del $(this).text()`;
+            sendMessage(name, seed, channel, delatemessage);
           });
           $('.userIDAnchor').click(function() {
             var currentMsg = $('#message').val();
