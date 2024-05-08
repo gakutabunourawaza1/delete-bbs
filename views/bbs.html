@@ -357,6 +357,7 @@
             var buttonText = $(this).text();
             var delatemessage = `/del ${buttonText}`;
             sendMessage(name, seed, channel, delatemessage);
+            console.log(sendMessage(name, seed, channel, delatemessage));
           });
           $('.userIDAnchor').click(function() {
             var currentMsg = $('#message').val();
