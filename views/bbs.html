@@ -354,7 +354,8 @@
             }
           });
           $('.anchor').click(function() {
-            let delatemessage = `/del $(this).text()`;
+            var buttonText = $(this).text();
+            var delatemessage = `/del ${buttonText}`;
             sendMessage(name, seed, channel, delatemessage);
           });
           $('.userIDAnchor').click(function() {
