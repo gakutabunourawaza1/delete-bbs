@@ -355,7 +355,7 @@
           });
           $('.anchor').click(function() {
             var buttonText = $(this).text();
-            var delatemessage = `/del ${buttonText}`;
+            var delatemessage = 'testmessage';
             sendMessage(name, seed, channel, delatemessage);
             console.log(sendMessage(name, seed, channel, delatemessage));
           });
