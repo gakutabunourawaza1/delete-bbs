@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lnag="ja">
+<html lang="ja">
 <head>
   <link rel="stylesheet" type="text/css" href="https://pgmemo.tokyo/data/filedir/1178_1.css?975">
   <link rel="stylesheet" type="text/css" href="//img.atcoder.jp/public/ea27d23/css/base.css">
@@ -12,194 +12,120 @@
   <script>
     var LANG = "ja";
     var userScreenName = "";
-    var csrfToken = "XNVKnVNNhQJneduGBS5f8OSEb7SSsFQD1TAIfDsTk8g="
+    var csrfToken = "XNVKnVNNhQJneduGBS5f8OSEb7SSsFQD1TAIfDsTk8g=";
   </script>
   <script src="//img.atcoder.jp/public/ea27d23/js/utils.js"></script>
   <script src="//img.atcoder.jp/public/ea27d23/js/base.js"></script>
-　<title>Yuki BBS 改造インスタンス </title>
-　<meta charset="UTF-8">
-　<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Yuki BBS 改造インスタンス</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
-    <style>
-      
-      :root {
-        --light-bg: #fff;
-        --light-fg: #000;
-        --light-border-bg: transparent;
-        --light-accent: #00f;
-        --light-link-color: var("--light-accent");
-        --light-button-bg: var("--light-accent");
-        --light-button-fg: var("--light-bg");
-        --dark-bg: #111;
-        --dark-fg: #ddd;
-        --dark-border-bg: transparent;
-        --dark-accent: #0ff;
-        --dark-link-color: var("--dark-accent");
-        --dark-button-bg: var("--dark-bg");
-        --dark-button-fg: var("--dark-fg");
-        --link-hover: #0cf;
+  <style>
+    :root {
+      --light-bg: #fff;
+      --light-fg: #000;
+      --dark-bg: #111;
+      --dark-fg: #ddd;
+      --light-accent: #00f;
+      --dark-accent: #0ff;
+    }
+    * {
+      margin: 0;
+    }
+    .example4 {
+      background: linear-gradient(to right, #c00, #cc0, #0c0, #0cc, #00c, #c0c) 0 / 200%;
+      animation: 5s example4 linear infinite;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    @keyframes example4 {
+      100% {
+        background-position: 200%;
       }
-
-      * {
-        margin: 0;
-      }
-      
-      .example4 {
-        background: linear-gradient(
-            to right,
-            #c00,
-            #cc0,
-            #0c0,
-            #0cc,
-            #00c,
-            #c0c,
-          )
-          0 / 200%;
-        animation: 5s example4 linear infinite;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-      @keyframes example4 {
-        100% {
-          background-position: 200%;
-        }
-      }
-
-      .dark {
-        background-color: var("--dark-bg");
-        color: var("--dark-fg");
-      }
-
-      .dark input,
-      .dark textarea,
-      .dark select {
-        background-color: var("--dark-bg");
-        color: var("--dark-fg");
-        border: #ddd 1px solid;
-      }
-      
-      .dark button {
-        background-color: var("--dark-button-bg");
-        color: var("--dark-button-fg");
-        border: #ddd 1px solid;
-      }
-
-      .dark a {
-        color: var("--dark-link-color");
-      }
-      
-      a:hover {
-        color: var("--link-hover");
-      }
-      
-      .menu {
-        display: none;
-      }
-      .submit_menu {
-        display: inline-block;
-      }
-      .menu.active{
-        display: inline-block;
-      }
-      .menu-toggle-button{
-        display:block;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="bootstrap">
-      <p id="fixed-server-timer" class="contest-timer" style="opacity: 1;">2024-05-03 (金)<br>18:46:31 +09:00</p>
+    }
+    .dark {
+      background-color: var(--dark-bg);
+      color: var(--dark-fg);
+    }
+  </style>
+</head>
+<body>
+  <div class="bootstrap">
+    <p id="fixed-server-timer" class="contest-timer" style="opacity: 1;">2024-05-03 (金)<br>18:46:31 +09:00</p>
+  </div>
+  <a href="javascript:var menu = document.querySelector('.menu'); menu.classList.toggle('active');" class="menu-toggle-button">メニュー</a>
+  <div class="menu">
+    <label for="darkmode">ダークモード:</label>
+    <input type="checkbox" id="darkmode" name="darkmode">
+    <label for="font">フォント:</label>
+    <select name="font" id="font-select">
+      <option value="">default</option>
+      <option value="Monospace">Monospace</option>
+      <option value="Arial">Arial</option>
+      <option value="Helvetica">Helvetica</option>
+      <option value="Times New Roman">Times New Roman</option>
+      <option value="Verdana">Verdana</option>
+    </select>
+    <label>Enterで送信</label>
+    <input type="checkbox" name="entersubmit" id="entersubmit" value="specific">
+  </div>
+  <div class="example4"></div>
+  <h1>Yuki BBS 改造インスタンス</h1>
+  <br>
+  <p>k41が作ったYuki BBSの改造インスタンスです。</p><br>
+  <a href="/bbs/howtouse">使い方</a>
+  <br>
+  <form id="form">
+    <select name="channel" id="channel">
+      <option value="main">雑談</option>
+      <option value="battle">バトスタ</option>
+    </select>
+    <br><br>
+    <div class="submit_menu">
+      <label for="name">名前</label>
+      <input type="text" id="name" value="" maxlength="50">　
+      <label for="seed">シード</label>
+      <input type="password" id="seed" value="" required>
+      <span id="buttonEye" class="fa fa-eye" onclick="pushHideButton()"></span>
+      <span id="eyeText" onclick="pushHideButton()">表示する</span>
+      <br>
     </div>
-    <a href="javascript:var menu = document.querySelector('.menu'); menu.classList.toggle('active');" class="menu-toggle-button">メニュー</a>
-    <div class="menu">
-      <label for="darkmode">ダークモード:</label>
-      <input type="checkbox" id="darkmode" name="darkmode">
-      <label for="font">フォント:</label>
-      <select name="font" id="font-select">
-        <option value="">default</option>
-        <option value="Monospace">Monospace</option>
-        <option value="Arial">Arial</option>
-        <option value="Helvetica">Helvetica</option>
-        <option value="Times New Roman">Times New Roman</option>
-        <option value="Verdana">Verdana</option>
-      </select>
-      <label>Enterで送信</label>
-      <input type="checkbox" name="entersubmit" id="entersubmit" value="specific">
-    </div>
-    <div class="example4"></div>
-    <h1>Yuki BBS 改造インスタンス</h1>
     <br>
-    <p>k41が作ったYuki BBSの改造インスタンスです。</p><br>
-    <a href="/bbs/howtouse">使い方</a>
+    <label for="message">メッセージ</label>
     <br>
-    <form id="form">
-      <select name="channel" id="channel">
-        <option value="main">雑談</option>
-        <option value="battle">バトスタ</option>
-      </select>
-      <br>
-      <br>
-      <div class="submit_menu">
-        <label for="name">名前</label>
-        <input type="text" id="name" value="" maxlength="50" required>　
-        <label for="seed">シード</label>
-        <input type="password" id="seed" value="" required>
-        <span id="buttonEye" class="fa fa-eye" onclick="pushHideButton()"></span>
-        <span id="eyeText" onclick="pushHideButton()">表示する</span>
-        <br>
-      </div>
-      <br>
-      <label for="message">メッセージ</label>
-      <br>
-      <textarea name="message" rows="6" cols="100" maxlength="3000" id="message" required></textarea>
-      <p></p>
-      <button id="btn" onclick="sendMessageByUser()">送信</button>
-      スピーカー以上のメッセージのみを表示<input type="checkbox" id="verify" name="verify">
-      <br><br><br>
-      <h2>投稿</h2>
-    </form>
-    <style>
-      button.anchor{
-        color: #000;
-        background-color: #fff;
-        background: none;
-        border: none;
-        padding: 0;
-        font: inherit;
-        cursor: pointer;
-      }
-      button.userIDAnchor{
-        color: #000;
-        background-color: #fff;
-        background: none;
-        border: none;
-        padding: 0;
-        font: inherit;
-        cursor: pointer;
-      }
-    </style>
-  
-    <div id="result">loading...</div>
+    <textarea name="message" rows="6" cols="100" maxlength="3000" id="message" required></textarea>
+    <p></p>
+    <button id="btn" onclick="sendMessageByUser()">送信</button>
+    スピーカー以上のメッセージのみを表示<input type="checkbox" id="verify" name="verify">
+    <br><br><br>
+    <h2>投稿</h2>
+  </form>
+  <div id="result">loading...</div>
 
-    <script language="javascript">
-      function pushHideButton() {
-        var txtPass = document.getElementById("seed");
-        var btnEye = document.getElementById("buttonEye");
-        var eyeText = document.getElementById("eyeText");
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const nameInput = document.getElementById('name');
+      nameInput.removeAttribute('required');
+    });
 
-        if (txtPass.type === "text") {
-          txtPass.type = "password";
-          btnEye.className = "fa fa-eye";
-          eyeText.textContent = "表示する";
-        } else {
-          txtPass.type = "text";
-          btnEye.className = "fa fa-eye-slash";
-          eyeText.textContent = "非表示にする";
-        }
+    function pushHideButton() {
+      var txtPass = document.getElementById("seed");
+      var btnEye = document.getElementById("buttonEye");
+      var eyeText = document.getElementById("eyeText");
+
+      if (txtPass.type === "text") {
+        txtPass.type = "password";
+        btnEye.className = "fa fa-eye";
+        eyeText.textContent = "表示する";
+      } else {
+        txtPass.type = "text";
+        btnEye.className = "fa fa-eye-slash";
+        eyeText.textContent = "非表示にする";
       }
-    </script>
+    }
+  </script>
   <script>
     var $form = $("#form");
     var $ta = $("#message");
