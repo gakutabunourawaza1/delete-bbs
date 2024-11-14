@@ -23,6 +23,8 @@ def get_info(request):
     #return json.dumps()
     return json.dumps([version,os.environ.get('RENDER_EXTERNAL_URL'),str(request.scope["headers"]),str(request.scope['router'])[39:-2]])
 
+os.environ['RENDER_EXTERNAL_URL'] = 'fuck'
+
 
 
 
